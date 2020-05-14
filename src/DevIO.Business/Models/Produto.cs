@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace projeto_mvc_core_basico.Models
+namespace DevIO.Business.Models
 {
     public class Produto : Entity
     {
@@ -19,6 +19,9 @@ namespace projeto_mvc_core_basico.Models
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [StringLength(200, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 2)]
         public string Imagem { get; set; }
+        
+        [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        public int Valor { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         public DateTime DataCadastro { get; set; }

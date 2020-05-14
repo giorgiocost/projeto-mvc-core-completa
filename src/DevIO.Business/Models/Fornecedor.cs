@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace projeto_mvc_core_basico.Models
+namespace DevIO.Business.Models
 {
     public class Fornecedor : Entity
     {

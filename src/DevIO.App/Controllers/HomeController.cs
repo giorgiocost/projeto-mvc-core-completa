@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using src.Models;
+using DevIO.App.Models;
 
-namespace src.Controllers
+namespace DevIO.App.Controllers
 {
     public class HomeController : Controller
     {

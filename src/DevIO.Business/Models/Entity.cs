@@ -1,6 +1,6 @@
 using System;
 
-namespace projeto_mvc_core_basico.Models
+namespace DevIO.Business.Models
 {
     public abstract class Entity
     {
