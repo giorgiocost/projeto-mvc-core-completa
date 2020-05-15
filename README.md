@@ -7,7 +7,7 @@ Plataforma: [desenvolvedor.io](https://desenvolvedor.io/)
 - Visual Studio Code
 - DB Browser for SQLite
 
-## Author
+## Aluno
 
 :man_technologist: Giorgio Costa <br/>
 :globe_with_meridians: [LinkedIn](https://www.linkedin.com/in/giorgiocost/)
