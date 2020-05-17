@@ -21,6 +21,8 @@ namespace DevIO.Data.Mappings
             builder.Property(p => p.Imagem)
             .IsRequired()
             .HasColumnType("varchar(100)");
+
+            builder.ToTable("Produtos");
         }
     }
 }
