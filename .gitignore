@@ -1,3 +1,4 @@
 src/**/bin
 src/**/obj
 src/**/*.db
+src/DevIO.App/Migrations/
