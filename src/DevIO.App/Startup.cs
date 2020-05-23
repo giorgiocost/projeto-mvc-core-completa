@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using DevIO.App.Areas.Identity.Data;
 using DevIO.Business.Interfaces;
 using DevIO.Data.Context;
@@ -43,6 +44,8 @@ namespace DevIO.App
             services.AddDbContext<MeuDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("ApplicationDbContext"),b => b.MigrationsAssembly("DevIO.App"))
             );
+
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
