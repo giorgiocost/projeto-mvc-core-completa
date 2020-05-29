@@ -7,6 +7,12 @@ Plataforma: [desenvolvedor.io](https://desenvolvedor.io/)
 - Visual Studio Code
 - DB Browser for SQLite
 
+## Instalação
+### dotnet-aspnet-codegenerator
+```
+dotnet tool install --global dotnet-aspnet-codegenerator --version 2.1.1
+```
+
 ## Aluno
 
 :man_technologist: Giorgio Costa <br/>
