@@ -31,21 +31,16 @@ namespace DevIO.App.Controllers
         }
 
         // GET: Fornecedores/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(Guid id)
         {
-            if (id == null)
+            var fornecedorViewModel = await ObterFornecedorEndereco(id);
+
+            if (fornecedorViewModel == null)
             {
                 return NotFound();
             }
 
-            var fornecedor = await _fornecedorRepository.ObterPorId(id)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (fornecedor == null)
-            {
-                return NotFound();
-            }
-
-            return View(fornecedor);
+            return View(fornecedorViewModel);
         }
 
         // GET: Fornecedores/Create
@@ -59,15 +54,15 @@ namespace DevIO.App.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Fornecedor fornecedor)
+        public async Task<IActionResult> Create(FornecedorViewModel fornecedorViewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(fornecedor);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var fornecedor = _mapper.Map<Fornecedor>(fornecedorViewModel);
+                await _fornecedorRepository.Adicionar(fornecedor);
+                return RedirectToAction("Index");
             }
-            return View(fornecedor);
+            return View(fornecedorViewModel);
         }
 
         // GET: Fornecedores/Edit/5
@@ -153,6 +148,11 @@ namespace DevIO.App.Controllers
         private bool FornecedorExists(Guid id)
         {
             return _context.FornecedorViewModel.Any(e => e.Id == id);
+        }
+
+        private async Task<FornecedorViewModel> ObterFornecedorEndereco(Guid id)
+        {
+            return _mapper.Map<FornecedorViewModel>(await _fornecedorRepository.ObterFornecedorEndereco(id));
         }
     }
 }
