@@ -1,19 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DevIO.App.Areas.Identity.Data;
 using DevIO.App.ViewModels;
 using DevIO.Business.Interfaces;
 using DevIO.Business.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace DevIO.App.Controllers
 {
-    public class FornecedoresController : Controller
+    public class FornecedoresController : BaseController
     {
         private readonly IFornecedorRepository _fornecedorRepository;
         private readonly IMapper _mapper;
@@ -66,19 +62,16 @@ namespace DevIO.App.Controllers
         }
 
         // GET: Fornecedores/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            
 
-            var fornecedor = await _context.FornecedorViewModel.FindAsync(id);
-            if (fornecedor == null)
+            var fornecedorViewModel = await ObterFornecedorProdutosEndereco(id);
+            if (fornecedorViewModel == null)
             {
                 return NotFound();
             }
-            return View(fornecedor);
+            return View(fornecedorViewModel);
         }
 
         // POST: Fornecedores/Edit/5
@@ -86,52 +79,28 @@ namespace DevIO.App.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, Fornecedor fornecedor)
+        public async Task<IActionResult> Edit(Guid id, Fornecedor fornecedorViewModel)
         {
-            if (id != fornecedor.Id)
-            {
-                return NotFound();
-            }
+            if (id != fornecedorViewModel.Id) return NotFound();
+            
+            if (!ModelState.IsValid) return View(fornecedorViewModel);
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(fornecedor);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!FornecedorExists(fornecedor.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(fornecedor);
+            var fornecedor = _mapper.Map<Fornecedor>(fornecedorViewModel);
+            await _fornecedorRepository.Atualizar(fornecedorViewModel);
+
+            return RedirectToAction("Index");            
         }
 
         // GET: Fornecedores/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var fornecedor = await _context.FornecedorViewModel
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (fornecedor == null)
-            {
-                return NotFound();
-            }
+            var fornecedorViewModel = await ObterFornecedorEndereco(id);
+            
+            if (fornecedorViewModel == null) return NotFound();
+            
 
-            return View(fornecedor);
+            return View(fornecedorViewModel);
         }
 
         // POST: Fornecedores/Delete/5
@@ -139,20 +108,23 @@ namespace DevIO.App.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var fornecedor = await _context.FornecedorViewModel.FindAsync(id);
-            _context.FornecedorViewModel.Remove(fornecedor);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+            var FornecedorViewModel = await ObterFornecedorEndereco(id);
 
-        private bool FornecedorExists(Guid id)
-        {
-            return _context.FornecedorViewModel.Any(e => e.Id == id);
+            if(FornecedorViewModel == null) return NotFound();
+
+            await _fornecedorRepository.Remover(id);
+    
+            return RedirectToAction("Index");
         }
 
         private async Task<FornecedorViewModel> ObterFornecedorEndereco(Guid id)
         {
             return _mapper.Map<FornecedorViewModel>(await _fornecedorRepository.ObterFornecedorEndereco(id));
+        }
+
+        private async Task<FornecedorViewModel> ObterFornecedorProdutosEndereco(Guid id)
+        {
+            return _mapper.Map<FornecedorViewModel>(await _fornecedorRepository.ObterFornecedorProdutosEndereco(id));
         }
     }
 }
