@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
@@ -37,5 +38,7 @@ namespace DevIO.App.ViewModels
 
         /* EF relacionamento N para 1*/
         public FornecedorViewModel Fornecedor { get; set; }
+
+        public IEnumerable<FornecedorViewModel>  Fornecedores { get; set; }
     }
 }
