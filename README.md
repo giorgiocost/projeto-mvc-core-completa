@@ -1,4 +1,6 @@
 # projeto-mvc-core-completa
+![GitHub top language](https://img.shields.io/github/languages/top/giorgiocost/projeto-mvc-core-completa)
+![GitHub repo size](https://img.shields.io/github/repo-size/giorgiocost/projeto-mvc-core-completa)
 
 ### Projeto final do curso (Dominando o ASP.NET MVC Core)
 Plataforma: [desenvolvedor.io](https://desenvolvedor.io/)
