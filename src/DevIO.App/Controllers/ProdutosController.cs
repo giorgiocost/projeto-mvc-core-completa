@@ -17,16 +17,17 @@ namespace DevIO.App.Controllers
 
         public ProdutosController(
             IProdutoRepository produtoRepository,
-            FornecedorRepository _fornecedorRepository,
+            FornecedorRepository fornecedorRepository,
             IMapper mapper)
         {
             _produtoRepository = produtoRepository;
+            _fornecedorRepository = fornecedorRepository;
             _mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(_mapper.Map<IEnumerable<ProdutoViewModel>> (await _produtoRepository.ObterTodos()));
+            return View(_mapper.Map<IEnumerable<ProdutoViewModel>> (await _produtoRepository.ObterProdutosFornecedores()));
         }
 
         private async Task<ProdutoViewModel> ObterProduto(Guid id)
