@@ -30,6 +30,37 @@ namespace DevIO.App.Controllers
             return View(_mapper.Map<IEnumerable<ProdutoViewModel>> (await _produtoRepository.ObterProdutosFornecedores()));
         }
 
+         // GET: Produtos/Details/5
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var produtoViewModel = await ObterProduto(id);
+
+            if (produtoViewModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(produtoViewModel);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(ProdutoViewModel produtoViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var produto = _mapper.Map<Produto>(produtoViewModel);
+                await _produtoRepository.Adicionar(produto);
+                return RedirectToAction("Index");
+            }
+            return View(produtoViewModel);
+        }
+
         private async Task<ProdutoViewModel> ObterProduto(Guid id)
         {
             var produto = _mapper.Map<ProdutoViewModel>(await _produtoRepository.ObterProdutoFornecedor(id));
