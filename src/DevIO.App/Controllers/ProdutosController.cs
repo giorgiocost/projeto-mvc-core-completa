@@ -26,13 +26,11 @@ namespace DevIO.App.Controllers
            _mapper = mapper;
        }
 
-       // GET: Produtos
        public async Task<IActionResult> Index()
        {
            return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.ObterProdutosFornecedores()));
        }
 
-       // GET: Produtos/Details/5
        public async Task<IActionResult> Details(Guid id)
        {
            var produtoViewModel = await ObterProduto(id);
@@ -45,7 +43,6 @@ namespace DevIO.App.Controllers
            return View(produtoViewModel);
        }
 
-        // GET: Produtos/Create
         public async Task<IActionResult> Create()
         {
 
@@ -54,9 +51,6 @@ namespace DevIO.App.Controllers
             return View(produtoViewModel);
         }
 
-        //    // POST: Produtos/Create
-        //    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //    // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProdutoViewModel produtoViewModel)
@@ -69,7 +63,6 @@ namespace DevIO.App.Controllers
             return View(produtoViewModel);
         }
 
-        //    // GET: Produtos/Edit/5
         //    public async Task<IActionResult> Edit(Guid? id)
         //    {
         //        if (id == null)
@@ -86,9 +79,6 @@ namespace DevIO.App.Controllers
         //        return View(produtoViewModel);
         //    }
 
-        //    // POST: Produtos/Edit/5
-        //    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //    // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         //    [HttpPost]
         //    [ValidateAntiForgeryToken]
         //    public async Task<IActionResult> Edit(Guid id, [Bind("Id,FornecedorId,Nome,Descricao,Imagem,Valor,Ativo")] ProdutoViewModel produtoViewModel)
@@ -122,7 +112,6 @@ namespace DevIO.App.Controllers
         //        return View(produtoViewModel);
         //    }
 
-        //    // GET: Produtos/Delete/5
         //    public async Task<IActionResult> Delete(Guid? id)
         //    {
         //        if (id == null)
@@ -141,7 +130,6 @@ namespace DevIO.App.Controllers
         //        return View(produtoViewModel);
         //    }
 
-        //    // POST: Produtos/Delete/5
         //    [HttpPost, ActionName("Delete")]
         //    [ValidateAntiForgeryToken]
         //    public async Task<IActionResult> DeleteConfirmed(Guid id)
