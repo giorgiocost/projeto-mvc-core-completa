@@ -63,87 +63,52 @@ namespace DevIO.App.Controllers
             return View(produtoViewModel);
         }
 
-        //    public async Task<IActionResult> Edit(Guid? id)
-        //    {
-        //        if (id == null)
-        //        {
-        //            return NotFound();
-        //        }
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var produtoViewModel = await ObterProduto(id);
 
-        //        var produtoViewModel = await _context.ProdutoViewModel.FindAsync(id);
-        //        if (produtoViewModel == null)
-        //        {
-        //            return NotFound();
-        //        }
-        //        ViewData["FornecedorId"] = new SelectList(_context.Set<FornecedorViewModel>(), "Id", "Documento", produtoViewModel.FornecedorId);
-        //        return View(produtoViewModel);
-        //    }
+            if (produtoViewModel == null)
+            {
+                return NotFound();
+            }
 
-        //    [HttpPost]
-        //    [ValidateAntiForgeryToken]
-        //    public async Task<IActionResult> Edit(Guid id, [Bind("Id,FornecedorId,Nome,Descricao,Imagem,Valor,Ativo")] ProdutoViewModel produtoViewModel)
-        //    {
-        //        if (id != produtoViewModel.Id)
-        //        {
-        //            return NotFound();
-        //        }
+            return View(produtoViewModel);
+        }
 
-        //        if (ModelState.IsValid)
-        //        {
-        //            try
-        //            {
-        //                _context.Update(produtoViewModel);
-        //                await _context.SaveChangesAsync();
-        //            }
-        //            catch (DbUpdateConcurrencyException)
-        //            {
-        //                if (!ProdutoViewModelExists(produtoViewModel.Id))
-        //                {
-        //                    return NotFound();
-        //                }
-        //                else
-        //                {
-        //                    throw;
-        //                }
-        //            }
-        //            return RedirectToAction(nameof(Index));
-        //        }
-        //        ViewData["FornecedorId"] = new SelectList(_context.Set<FornecedorViewModel>(), "Id", "Documento", produtoViewModel.FornecedorId);
-        //        return View(produtoViewModel);
-        //    }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Guid id, ProdutoViewModel produtoViewModel)
+        {
+            if (id != produtoViewModel.Id) return NotFound();
 
-        //    public async Task<IActionResult> Delete(Guid? id)
-        //    {
-        //        if (id == null)
-        //        {
-        //            return NotFound();
-        //        }
 
-        //        var produtoViewModel = await _context.ProdutoViewModel
-        //            .Include(p => p.Fornecedor)
-        //            .FirstOrDefaultAsync(m => m.Id == id);
-        //        if (produtoViewModel == null)
-        //        {
-        //            return NotFound();
-        //        }
+            if (!ModelState.IsValid) return View(produtoViewModel);
 
-        //        return View(produtoViewModel);
-        //    }
+            await _produtoRepository.Atualizar(_mapper.Map<Produto>(produtoViewModel));
+            return RedirectToAction("Index");
+        }
 
-        //    [HttpPost, ActionName("Delete")]
-        //    [ValidateAntiForgeryToken]
-        //    public async Task<IActionResult> DeleteConfirmed(Guid id)
-        //    {
-        //        var produtoViewModel = await _context.ProdutoViewModel.FindAsync(id);
-        //        _context.ProdutoViewModel.Remove(produtoViewModel);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var produto = await ObterProduto(id);
+                
+            if (produto == null) return NotFound();
 
-        //    private bool ProdutoViewModelExists(Guid id)
-        //    {
-        //        return _context.ProdutoViewModel.Any(e => e.Id == id);
-        //    }
+            return View(produto);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            var produto = await ObterProduto(id);
+
+            if (produto == null) return NotFound();
+
+            await _produtoRepository.Remover(id);
+            return RedirectToAction("Index");
+        }
+
 
         private async Task<ProdutoViewModel> ObterProduto(Guid id)
         {
