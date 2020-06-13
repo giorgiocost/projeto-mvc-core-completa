@@ -1,20 +1,21 @@
 ﻿@model DevIO.App.ViewModels.ProdutoViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Cadastrar Produto";
 }
 
-<h1>Create</h1>
 
-<h4>ProdutoViewModel</h4>
+<h4>@ViewData["Title"]</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form enctype="multipart/form-data" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="FornecedorId" class="control-label"></label>
-                <select asp-for="FornecedorId" class ="form-control" asp-items="ViewBag.FornecedorId"></select>
+                <select asp-for="FornecedorId" class="form-control" asp-items="@(new SelectList(Model.Fornecedores, "Id", "Nome"))">
+                    <option></option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Nome" class="control-label"></label>
@@ -27,9 +28,15 @@
                 <span asp-validation-for="Descricao" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Imagem" class="control-label"></label>
-                <input asp-for="Imagem" class="form-control" />
-                <span asp-validation-for="Imagem" class="text-danger"></span>
+                <label asp-for="ImagemUpload" class="control-label"></label>
+                
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="ImagemUpload" asp-for="ImagemUpload" />
+                    <label data-browse="Procurar" style="width: 400px" class="custom-file-label" for="ImagemUpload"></label>
+                    <label style="display: none" id="img_nome"></label>
+                </div>
+
+                <span asp-validation-for="ImagemUpload" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Valor" class="control-label"></label>
@@ -41,17 +48,28 @@
                     <input class="form-check-input" asp-for="Ativo" /> @Html.DisplayNameFor(model => model.Ativo)
                 </label>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+           
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="form-group">
+    <input type="submit" value="Cadastrar" class="btn btn-primary" />
+    <a asp-action="Index" class="btn btn-info" role="button">Voltar</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $("#ImagemUpload").change(function () {
+            $("#img_nome").eq(0)
+                .attr("style", "display: block")
+                .text(this.files[0].name);
+        }); 
+
+        $("#ImagemUpload")
+            .attr("data-val", true)
+            .attr("data-val-required", "Preenche o campo Imagem");
+    </script>
 }
