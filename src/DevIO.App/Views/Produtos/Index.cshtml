@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @*Imagem*@
+                Imagem
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nome)
@@ -34,7 +34,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @*Imagem*@
+                <img src="~/imagens/@item.Imagem" alt="@item.Nome"  style="width: 70px;"/>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Nome)
