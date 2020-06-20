@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using DevIO.App.Extensions;
 using Microsoft.AspNetCore.Http;
 
 namespace DevIO.App.ViewModels
@@ -28,8 +29,9 @@ namespace DevIO.App.ViewModels
 
         public string Imagem { get; set; }
         
+        [Moeda]
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        public int Valor { get; set; }
+        public decimal Valor { get; set; }
 
         [ScaffoldColumn(false)]
         public DateTime DataCadastro { get; set; }
