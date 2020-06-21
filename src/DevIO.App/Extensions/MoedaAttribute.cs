@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -26,9 +28,17 @@ namespace DevIO.App.Extensions
 
     public class MoedaAttributeAdapter : AttributeAdapterBase<MoedaAttribute>
     {
+        private ValidationAttribute attribute;
+        private IStringLocalizer stringLocalizer;
+
         public MoedaAttributeAdapter(MoedaAttribute attribute, IStringLocalizer stringLocalizer) : base(attribute, stringLocalizer)
         {
+        }
 
+        public MoedaAttributeAdapter(ValidationAttribute attribute, IStringLocalizer stringLocalizer)
+        {
+            this.attribute = attribute;
+            this.stringLocalizer = stringLocalizer;
         }
 
         public override void AddValidation(ClientModelValidationContext context)
@@ -43,6 +53,22 @@ namespace DevIO.App.Extensions
         public override string GetErrorMessage(ModelValidationContextBase validationContext)
         {
             return "Moeda em formato inválido";
+        }
+    }
+
+    public class MoedaValidationAttributeProvider : IValidationAttributeAdapterProvider
+    {
+        private readonly IValidationAttributeAdapterProvider _baseProvider = new ValidationAttributeAdapterProvider();
+
+        public IAttributeAdapter GetAttributeAdapter(ValidationAttribute attribute, IStringLocalizer stringLocalizer)
+        {
+            
+            if(attribute is MoedaAttribute moedaAttribute)
+            {
+                return new MoedaAttributeAdapter(attribute, stringLocalizer);
+            }
+            
+            return _baseProvider.GetAttributeAdapter(attribute, stringLocalizer)
         }
     }
 }
