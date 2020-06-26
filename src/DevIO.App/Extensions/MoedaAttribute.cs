@@ -4,6 +4,7 @@ using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,17 +29,11 @@ namespace DevIO.App.Extensions
 
     public class MoedaAttributeAdapter : AttributeAdapterBase<MoedaAttribute>
     {
-        private ValidationAttribute attribute;
+        private MoedaAttribute attribute;
         private IStringLocalizer stringLocalizer;
 
         public MoedaAttributeAdapter(MoedaAttribute attribute, IStringLocalizer stringLocalizer) : base(attribute, stringLocalizer)
         {
-        }
-
-        public MoedaAttributeAdapter(ValidationAttribute attribute, IStringLocalizer stringLocalizer)
-        {
-            this.attribute = attribute;
-            this.stringLocalizer = stringLocalizer;
         }
 
         public override void AddValidation(ClientModelValidationContext context)
@@ -65,10 +60,10 @@ namespace DevIO.App.Extensions
             
             if(attribute is MoedaAttribute moedaAttribute)
             {
-                return new MoedaAttributeAdapter(attribute, stringLocalizer);
+                return new MoedaAttributeAdapter(moedaAttribute, stringLocalizer);
             }
-            
-            return _baseProvider.GetAttributeAdapter(attribute, stringLocalizer)
+
+            return _baseProvider.GetAttributeAdapter(attribute, stringLocalizer);
         }
     }
 }
