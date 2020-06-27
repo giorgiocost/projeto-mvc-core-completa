@@ -3,3 +3,4 @@ src/**/obj
 src/**/*.db
 src/DevIO.App/Migrations/
 src/.vs/
+src/DevIO.App/wwwroot/imagens/*jpg
