@@ -2,9 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\DevIO.App\\Views",
-    "\\src\\DevIO.App\\Views\\Fornecedores"
+    "\\src\\DevIO.Business"
   ],
-  "SelectedNode": "\\src\\DevIO.App",
+  "SelectedNode": "\\src\\projeto-mvc-core.sln",
   "PreviewInSolutionExplorer": false
 }

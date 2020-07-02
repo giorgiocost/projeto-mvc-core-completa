@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using DevIO.Business.Intefaces;
+using DevIO.Business.Interfaces;
 
 namespace DevIO.Business.Notificacoes
 {
