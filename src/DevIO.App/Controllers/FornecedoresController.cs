@@ -12,12 +12,16 @@ namespace DevIO.App.Controllers
     public class FornecedoresController : BaseController
     {
         private readonly IFornecedorRepository _fornecedorRepository;
+        private readonly IFornecedorService _fornecedorService;
         private readonly IMapper _mapper;
 
-        public FornecedoresController(IFornecedorRepository fornecedorRepository, IMapper mapper)
+        public FornecedoresController(IFornecedorRepository fornecedorRepository,
+            IMapper mapper,
+            IFornecedorService fornecedorService)
         {
             _fornecedorRepository = fornecedorRepository;
             _mapper = mapper;
+            _fornecedorService = fornecedorService;
         }
 
         [Route("lista-de-fornecedores")]
@@ -53,7 +57,7 @@ namespace DevIO.App.Controllers
             if (ModelState.IsValid)
             {
                 var fornecedor = _mapper.Map<Fornecedor>(fornecedorViewModel);
-                await _fornecedorRepository.Adicionar(fornecedor);
+                await _fornecedorService.Adicionar(fornecedor);
                 return RedirectToAction("Index");
             }
             return View(fornecedorViewModel);
@@ -82,7 +86,7 @@ namespace DevIO.App.Controllers
             if (!ModelState.IsValid) return View(fornecedorViewModel);
 
             var fornecedor = _mapper.Map<Fornecedor>(fornecedorViewModel);
-            await _fornecedorRepository.Atualizar(fornecedorViewModel);
+            await _fornecedorService.Atualizar(fornecedorViewModel);
 
             return RedirectToAction("Index");            
         }
@@ -108,7 +112,7 @@ namespace DevIO.App.Controllers
 
             if(FornecedorViewModel == null) return NotFound();
 
-            await _fornecedorRepository.Remover(id);
+            await _fornecedorService.Remover(id);
     
             return RedirectToAction("Index");
         }
